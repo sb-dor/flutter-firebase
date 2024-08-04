@@ -41,6 +41,8 @@ dependencies:
   get_it: ^7.7.0
   uuid: ^4.4.2
   firebase_app_check: ^0.3.0+4
+  cloud_firestore: ^5.2.0
+  faker: ^2.1.0
 
 dev_dependencies:
   flutter_test:

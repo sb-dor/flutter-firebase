@@ -50,7 +50,7 @@ class _AnalyticsEcommercePageState extends State<AnalyticsEcommercePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         controller: scrollController,
         slivers: [
           SliverAppBar(
@@ -58,8 +58,17 @@ class _AnalyticsEcommercePageState extends State<AnalyticsEcommercePage> {
             stretch: true,
             pinned: true,
             scrolledUnderElevation: 0,
-            // leadingWidth: 0,
-            // leading: IconButton(onPressed: (){}, icon: Icon(Icons.back_hand)),
+            leadingWidth: slideText ? null : 0,
+            leading: AnimatedOpacity(
+              opacity: slideText ? 1 : 0,
+              duration: const Duration(milliseconds: 360),
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.arrow_back,
+                ),
+              ),
+            ) ,
             centerTitle: false,
             backgroundColor: Colors.amber,
             onStretchTrigger: () async {
@@ -67,11 +76,21 @@ class _AnalyticsEcommercePageState extends State<AnalyticsEcommercePage> {
             },
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.pin,
-              titlePadding: EdgeInsets.only(left: 10),
+              titlePadding: const EdgeInsets.only(left: 10),
               title: AnimatedSlide(
                 offset: slideText ? const Offset(0.2, 0) : Offset.zero,
                 duration: const Duration(milliseconds: 250),
-                child: Text("Analytics e-commerce page "),
+                child: const Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Analytics e-commerce page ",
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                  ],
+                ),
               ),
               expandedTitleScale: 1.5,
               centerTitle: false,
@@ -79,15 +98,16 @@ class _AnalyticsEcommercePageState extends State<AnalyticsEcommercePage> {
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
-              (context, index) {
+                  (context, index) {
                 final item = products[index];
                 return ListTile(
                   onTap: () async {
                     await showDialog(
                       context: context,
-                      builder: (context) => _AnalyticsProductAbout(
-                        analyticsProduct: item,
-                      ),
+                      builder: (context) =>
+                          _AnalyticsProductAbout(
+                            analyticsProduct: item,
+                          ),
                     );
                   },
                   title: Text("Name: ${item.name}"),
