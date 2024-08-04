@@ -118,7 +118,17 @@ class FirebaseCloudFireStoreHelper with UserFirestoreReferences {
     // This functionality is enabled by default, however it can be disabled if needed. The settings
     // must be set before any Firestore interaction is performed:
     //
-    FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false);
+
+    // Firestore provides out of the box support for offline capabilities. When reading and writing
+    // data, Firestore uses a local database which automatically synchronizes with the server. Cloud
+    // Firestore functionality continues when users are offline, and automatically handles data
+    // migration when they regain connectivity.
+    // This functionality is enabled by default, however it can be disabled if needed. The settings
+    // must be set before any Firestore interaction is performed:
+    // FirebaseFirestore.instance.settings = const Settings(
+    //   persistenceEnabled: false,
+    //   cacheSizeBytes: 40, // default value is 40MB but you can change that
+    // );
   }
 
   Future<void> addUser(UserModel user) async {
