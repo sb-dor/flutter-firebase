@@ -12,12 +12,18 @@ mixin class UserFirestoreReferences {
   //
   // create a references that will work exactly with "users" collection only
   final _usersRef = FirebaseFirestore.instance.collection('users').withConverter<UserModel>(
-        fromFirestore: (snapshot, _) => UserModel.fromJson(snapshot.data() ?? {}),
+        fromFirestore: (snapshot, _) => UserModel.fromJson(
+          snapshot.data() ?? {},
+          documentId: snapshot.id, // document id -> for deletion and update
+        ),
         toFirestore: (user, _) => user.toJson(),
       );
 
   final _usersTodoRef = FirebaseFirestore.instance.collection('users_todo').withConverter(
-        fromFirestore: (snap, _) => UserTodo.fromJson(snap.data() ?? {}),
+        fromFirestore: (snap, _) => UserTodo.fromJson(
+          snap.data() ?? {},
+          documentId: snap.id, // document id -> for deletion and update
+        ),
         toFirestore: (userTodo, _) => userTodo.toJson(),
       );
 
