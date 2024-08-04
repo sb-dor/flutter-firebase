@@ -24,7 +24,7 @@ class _FirebaseCloudFirestorePageState extends State<FirebaseCloudFirestorePage>
     loading = true;
     setState(() {});
     userModels.clear();
-    userModels = await getit<FirebaseCloudFireStoreHelper>().getUsers();
+    userModels = await getit<FirebaseCloudFireStoreHelper>().getUsersWithRef();
     loading = false;
     setState(() {});
   }
@@ -38,7 +38,7 @@ class _FirebaseCloudFirestorePageState extends State<FirebaseCloudFirestorePage>
 
     connectivity.onConnectivityChanged.listen((e) async {
       if (e.contains(ConnectivityResult.wifi) || e.contains(ConnectivityResult.mobile)) {
-        await getit<FirebaseCloudFireStoreHelper>().firestore.disableNetwork();
+        await getit<FirebaseCloudFireStoreHelper>().firestore.enableNetwork();
       } else {
         await getit<FirebaseCloudFireStoreHelper>().firestore.disableNetwork();
       }
@@ -102,7 +102,7 @@ class _FirebaseCloudFirestorePageState extends State<FirebaseCloudFirestorePage>
                               user.textEditingController.text = user.name;
                             } else {
                               user.name = user.textEditingController.text.trim();
-                              await getit<FirebaseCloudFireStoreHelper>().updatedUser(user);
+                              await getit<FirebaseCloudFireStoreHelper>().updatedUserWithRef(user);
                             }
                             setState(() {});
                           },
@@ -112,7 +112,7 @@ class _FirebaseCloudFirestorePageState extends State<FirebaseCloudFirestorePage>
                         ),
                         trailing: IconButton(
                           onPressed: () async {
-                            await getit<FirebaseCloudFireStoreHelper>().deleteUser(user);
+                            await getit<FirebaseCloudFireStoreHelper>().deleteUserWithRef(user);
                             await getUsers();
                           },
                           icon: const Icon(
@@ -161,7 +161,7 @@ class _AddUserPageState extends State<_AddUserPage> {
             age: int.tryParse(_ageController.text.trim()) ?? 0,
             id: const Uuid().v4(),
           );
-          await getit<FirebaseCloudFireStoreHelper>().addUser(user);
+          await getit<FirebaseCloudFireStoreHelper>().addUserWithRef(user);
           if (context.mounted) Navigator.pop(context);
         },
         child: const Icon(
@@ -216,7 +216,7 @@ class _UsersTodoState extends State<_UsersTodo> {
     loading = true;
     setState(() {});
 
-    userTodo = await getit<FirebaseCloudFireStoreHelper>().usersTodos(widget.userModel);
+    userTodo = await getit<FirebaseCloudFireStoreHelper>().usersTodosWithRef(widget.userModel);
 
     loading = false;
     setState(() {});
@@ -233,7 +233,7 @@ class _UsersTodoState extends State<_UsersTodo> {
             const Uuid().v4(),
           );
 
-          await getit<FirebaseCloudFireStoreHelper>().addTodo(todo);
+          await getit<FirebaseCloudFireStoreHelper>().addTodoWithRef(todo);
           getData();
         },
         child: const Icon(Icons.add),

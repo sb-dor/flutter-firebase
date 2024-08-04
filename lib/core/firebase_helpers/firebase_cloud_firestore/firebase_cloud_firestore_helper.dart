@@ -4,8 +4,97 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_firestore/user_model/user_model.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_firestore/user_model/user_todo.dart';
 
-class FirebaseCloudFireStoreHelper {
+// example of "withConverter" that creates query helper
+// unnecessary, just for learning how to deal with "withConverter"
+mixin class UserFirestoreReferences {
+  final _firestore = FirebaseFirestore.instance;
+
+  //
+  // create a references that will work exactly with "users" collection only
+  final _usersRef = FirebaseFirestore.instance.collection('users').withConverter<UserModel>(
+        fromFirestore: (snapshot, _) => UserModel.fromJson(snapshot.data() ?? {}),
+        toFirestore: (user, _) => user.toJson(),
+      );
+
+  final _usersTodoRef = FirebaseFirestore.instance.collection('users_todo').withConverter(
+        fromFirestore: (snap, _) => UserTodo.fromJson(snap.data() ?? {}),
+        toFirestore: (userTodo, _) => userTodo.toJson(),
+      );
+
+  //
+  //
+  // methods
+  Future<List<UserModel>> getUsersWithRef() async {
+    return _usersRef.get().then(
+      (e) {
+        return e.docs.map((el) => el.data()).toList();
+      },
+    );
+  }
+
+  // add user with ref
+  Future<void> addUserWithRef(UserModel user) async {
+    await _usersRef
+        .add(user)
+        .then((value) => debugPrint("User Added"))
+        .catchError((error) => debugPrint("Failed to add user: $error"));
+  }
+
+  // update user with ref
+  Future<void> updatedUserWithRef(UserModel user) async {
+    await _usersRef.doc(user.documentId).update(
+          user.toJson(),
+        );
+  }
+
+  // Firestore lets you execute multiple write operations as a single batch that can contain any
+  // combination of set, update, or delete operations.
+  Future<void> deleteUserWithRef(UserModel user) async {
+    WriteBatch batch = _firestore.batch();
+
+    // get all another user's data
+    // it gives list of <QuerySnapshot>
+    QuerySnapshot usersTodoSnapshot =
+        await _usersTodoRef.where('user_id', isEqualTo: user.id).get();
+
+    // iterate over each document and add delete operation to the batch
+    for (QueryDocumentSnapshot doc in usersTodoSnapshot.docs) {
+      batch.delete(doc.reference);
+    }
+
+    await batch.commit();
+
+    await _usersRef.doc(user.documentId).delete();
+  }
+
+  //
+  //
+  Future<List<UserTodo>> usersTodosWithRef(UserModel user) async {
+    return _usersTodoRef.where('user_id', isEqualTo: user.id).get().then(
+      (e) {
+        return e.docs.map(
+          (e) {
+            return e.data();
+          },
+        ).toList();
+      },
+    );
+  }
+
+  //
+  Future<void> addTodoWithRef(UserTodo todo) async {
+    await _usersTodoRef.add(todo);
+  }
+}
+
+///
+///
+///
+///
+
+class FirebaseCloudFireStoreHelper with UserFirestoreReferences {
   // by default you can register your app like
+  @override
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // but when you want to register app in other firebase app
@@ -67,8 +156,6 @@ class FirebaseCloudFireStoreHelper {
   }
 
   Future<List<UserModel>> getUsers() async {
-
-
     return _firestore.collection('users').get().then(
       (e) {
         return e.docs.map(
