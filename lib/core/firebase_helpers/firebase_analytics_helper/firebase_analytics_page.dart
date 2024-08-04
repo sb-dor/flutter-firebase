@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_analytics_helper/analytics_product/analytics_product.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_analytics_helper/firebase_analytics_helper.dart';
 import 'package:flutter_firebase/core/getit/getit_init.dart';
 
@@ -83,7 +84,13 @@ class _FirebaseAnalyticsPageState extends State<FirebaseAnalyticsPage> {
                   child: ElevatedButton(
                     onPressed: () async {
                       // custom event
-                      await _analyticsHelper.analyticsAddToCartEvent();
+                      await _analyticsHelper.analyticsAddToCartEvent(
+                        product: AnalyticsProduct(
+                          "PROD",
+                          10,
+                          "USD",
+                        ),
+                      );
                     },
                     child: const Text("Add to cart event"),
                   ),

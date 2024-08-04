@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_analytics_helper/analytics_product/analytics_product.dart';
 
 // Analytics automatically logs some events for you; you don't need to add any code to receive them.
 // If your app needs to collect additional data, you can log up to 500 different Analytics Event types in your app.
@@ -48,26 +51,74 @@ class FirebaseAnalyticsHelper {
     }
   }
 
-
   // more about e-commerce analytics take a look here
   // https://firebase.google.com/docs/analytics/measure-ecommerce#dart_10
-  Future<void> analyticsAddToCartEvent() async {
+  Future<void> analyticsAddToCartEvent({
+    required AnalyticsProduct product,
+  }) async {
     try {
-      final jeggings = AnalyticsEventItem(
-        itemId: "SKU_123",
-        itemName: "jeggings",
-        itemCategory: "pants",
-        itemVariant: "black",
-        itemBrand: "Google",
-        price: 9.99,
+      final productItem = AnalyticsEventItem(
+        itemId: product.id,
+        itemName: product.name,
+        // other properties
+        // itemCategory: "pants",
+        // itemVariant: "black",
+        // itemBrand: "Google",
+        price: product.price,
       );
 
       await FirebaseAnalytics.instance.logAddToCart(
         currency: 'USD',
-        value: 19.98,
+        value: product.price,
         items: [
-          jeggings,
+          productItem,
         ],
+      );
+    } catch (e) {
+      debugPrint("log event error is $e");
+    }
+  }
+
+  // more about e-commerce analytics take a look here
+  // https://firebase.google.com/docs/analytics/measure-ecommerce#dart_10
+  Future<void> analyticsLogViewItemEvent({
+    required AnalyticsProduct product,
+  }) async {
+    try {
+      final productItem = AnalyticsEventItem(
+        itemId: product.id,
+        itemName: product.name,
+        // other properties
+        // itemCategory: "pants",
+        // itemVariant: "black",
+        // itemBrand: "Google",
+        price: product.price,
+      );
+
+      await FirebaseAnalytics.instance.logViewItem(
+        currency: 'USD',
+        value: product.price,
+        items: [
+          productItem,
+        ],
+        parameters: {
+          "ad_unit_name": jsonEncode(product.toJson()),
+        },
+      );
+    } catch (e) {
+      debugPrint("log event error is $e");
+    }
+  }
+
+  Future<void> analyticsLogViewItemOwnEvent({
+    required AnalyticsProduct product,
+  }) async {
+    try {
+      await _analytics.logEvent(
+        name: "viewitem_test",
+        parameters: {
+          "adding_item": jsonEncode({"id": product.id, "price": product.price}),
+        },
       );
     } catch (e) {
       debugPrint("log event error is $e");
