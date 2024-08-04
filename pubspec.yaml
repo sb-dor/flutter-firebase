@@ -40,6 +40,7 @@ dependencies:
   firebase_analytics: ^11.2.1
   get_it: ^7.7.0
   uuid: ^4.4.2
+  firebase_app_check: ^0.3.0+4
 
 dev_dependencies:
   flutter_test:
