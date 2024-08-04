@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_analytics_helper/analytics_ecommerce_page/analytics_ecommerce_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_analytics_helper/firebase_analytics_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_appcheck/firebase_app_check_helper.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_firestore/firebase_cloud_firestore_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_firestore/firebase_cloud_firestore_page.dart';
 import 'package:flutter_firebase/core/getit/getit_init.dart';
 import 'package:flutter_firebase/firebase_options.dart';
@@ -20,6 +21,8 @@ void main() async {
     );
 
     await getit<FirebaseAppCheckHelper>().init();
+
+    await getit<FirebaseCloudFireStoreHelper>().initFirestore();
 
     getit<FirebaseAnalyticsHelper>().analytics.setAnalyticsCollectionEnabled(true);
   } catch (e) {

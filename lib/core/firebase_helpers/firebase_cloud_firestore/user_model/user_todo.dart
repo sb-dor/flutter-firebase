@@ -4,8 +4,14 @@ class UserTodo {
   final String userId;
   final String textTodo;
   final String id;
+  final String? documentId;
 
-  UserTodo(this.userId, this.textTodo, this.id,);
+  UserTodo(
+    this.userId,
+    this.textTodo,
+    this.id, {
+    this.documentId,
+  });
 
   Map<String, dynamic> toJson() {
     return {
@@ -15,11 +21,15 @@ class UserTodo {
     };
   }
 
-  factory UserTodo.fromJson(Map<String, dynamic> json) {
+  factory UserTodo.fromJson(
+    Map<String, dynamic> json, {
+    String? documentId,
+  }) {
     return UserTodo(
       json['user_id'],
       json['text_todo'],
       json['id'],
+      documentId: documentId,
     );
   }
 }

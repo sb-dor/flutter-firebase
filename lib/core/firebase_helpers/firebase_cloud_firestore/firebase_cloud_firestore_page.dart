@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_firestore/firebase_cloud_firestore_helper.dart';
@@ -32,6 +33,16 @@ class _FirebaseCloudFirestorePageState extends State<FirebaseCloudFirestorePage>
   void initState() {
     super.initState();
     getUsers();
+
+    Connectivity connectivity = Connectivity();
+
+    connectivity.onConnectivityChanged.listen((e) async {
+      if (e.contains(ConnectivityResult.wifi) || e.contains(ConnectivityResult.mobile)) {
+        await getit<FirebaseCloudFireStoreHelper>().firestore.disableNetwork();
+      } else {
+        await getit<FirebaseCloudFireStoreHelper>().firestore.disableNetwork();
+      }
+    });
   }
 
   @override
@@ -77,8 +88,37 @@ class _FirebaseCloudFirestorePageState extends State<FirebaseCloudFirestorePage>
                             ),
                           );
                         },
-                        title: Text("${index + 1}) Name: ${user.name}"),
+                        title: user.update
+                            ? TextField(
+                                controller: user.textEditingController,
+                              )
+                            : Text("${index + 1}) Name: ${user.name}"),
                         subtitle: Text("Age: ${user.age}"),
+                        leading: IconButton(
+                          onPressed: () async {
+                            user.update = !user.update;
+                            setState(() {});
+                            if (user.update) {
+                              user.textEditingController.text = user.name;
+                            } else {
+                              user.name = user.textEditingController.text.trim();
+                              await getit<FirebaseCloudFireStoreHelper>().updatedUser(user);
+                            }
+                            setState(() {});
+                          },
+                          icon: Icon(
+                            user.update ? Icons.save : Icons.edit,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          onPressed: () async {
+                            await getit<FirebaseCloudFireStoreHelper>().deleteUser(user);
+                            await getUsers();
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                          ),
+                        ),
                       );
                     },
                   ),
@@ -115,13 +155,14 @@ class _AddUserPageState extends State<_AddUserPage> {
         title: const Text("Add User"),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           final user = UserModel(
             name: _nameController.text.trim(),
             age: int.tryParse(_ageController.text.trim()) ?? 0,
             id: const Uuid().v4(),
           );
-          getit<FirebaseCloudFireStoreHelper>().addUser(user);
+          await getit<FirebaseCloudFireStoreHelper>().addUser(user);
+          if (context.mounted) Navigator.pop(context);
         },
         child: const Icon(
           Icons.add,
