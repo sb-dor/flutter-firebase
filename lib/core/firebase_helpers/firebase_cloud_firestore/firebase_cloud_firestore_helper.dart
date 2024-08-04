@@ -188,4 +188,28 @@ class FirebaseCloudFireStoreHelper with UserFirestoreReferences {
   Future<void> addTodo(UserTodo todo) async {
     await _firestore.collection('users_todo').add(todo.toJson());
   }
+
+  // this function is not using anywhere but in order to understand how the transaction works
+  // I wrote this
+
+  // Transactions are a way to ensure that a write operation only occurs using the latest data
+  // available on the server. Transactions never partially apply writes, and writes execute at the
+  // end of a successful transaction.
+
+  // When using transactions, note that:
+  //
+  // 1. Read operations must come before write operations
+  // 2. Transactions will fail when the client is offline, they cannot use cached data
+  Future<List<UserModel>> runTransactionWithUpdatingThenGettingUsers(UserModel user) async {
+    return await _firestore.runTransaction<List<UserModel>>((transaction) async {
+      // first update the user
+      // if the function throws an error or function does not complete successfully
+      // transaction will be stopped
+      await updatedUser(user);
+      return _usersRef.get().then((e) => e.docs.map((el) => el.data()).toList());
+    }).onError((e, s) {
+      debugPrint("error is $s");
+      return <UserModel>[];
+    });
+  }
 }
