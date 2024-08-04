@@ -17,7 +17,7 @@ void main() async {
     );
     getit<FirebaseAnalyticsHelper>().analytics.setAnalyticsCollectionEnabled(true);
   } catch (e) {
-    print("Failed to initialize Firebase: $e");
+    debugPrint("Failed to initialize Firebase: $e");
   }
 
   runApp(const _MainApp());

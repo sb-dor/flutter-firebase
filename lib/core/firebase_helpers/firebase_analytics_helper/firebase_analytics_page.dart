@@ -39,15 +39,30 @@ class _FirebaseAnalyticsPageState extends State<FirebaseAnalyticsPage> {
                 SliverToBoxAdapter(
                   child: ElevatedButton(
                     onPressed: () async {
+                      // custom event
                       await _analyticsHelper.analyticsLogEvent(
-                        logEvent: "select_content",
+                        logEvent: "pages_tracked",
                         parameters: {
-                          "content_type": "image",
-                          "item_id": 1,
+                          "page_name": widget.runtimeType.toString(),
                         },
                       );
                     },
-                    child: const Text("Analytics Log Event"),
+                    child: const Text("Pages tracking analytics"),
+                  ),
+                ),
+                const SliverToBoxAdapter(child: SizedBox(height: 10)),
+                SliverToBoxAdapter(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      // custom event
+                      await _analyticsHelper.analyticsLogEvent(
+                        logEvent: "button_clicking",
+                        parameters: {
+                          "wot": "e100",
+                        },
+                      );
+                    },
+                    child: const Text("button_clicking"),
                   ),
                 ),
               ],

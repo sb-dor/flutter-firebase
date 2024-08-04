@@ -12,7 +12,13 @@ class FirebaseAnalyticsHelper {
 
   FirebaseAnalytics get analytics => _analytics;
 
-  //
+  // custom events
+
+  // Generally, events logged by your app are batched together over the period of approximately one
+  // hour and uploaded together. This approach conserves the battery on end users’ devices and reduces
+  // network data usage. However, for the purposes of validating your Analytics implementation (and,
+  // in order to view your Analytics in the DebugView report), you can enable debug mode on your
+  // development device to upload events with a minimal delay.
   Future<void> analyticsLogEvent({
     required String logEvent,
     required Map<String, Object> parameters,
@@ -22,11 +28,11 @@ class FirebaseAnalyticsHelper {
         name: logEvent,
         parameters: parameters,
       );
-      // await _analytics.logAddToCart(items: [
-      //   AnalyticsEventItem(itemName: "Av"),
-      // ], value: 10, currency: "USD");
     } on Exception catch (e) {
       debugPrint("log event error is $e");
     }
   }
+
+  //
+  Future<void> analyticsSetUserProperty() async {}
 }
