@@ -34,5 +34,43 @@ class FirebaseAnalyticsHelper {
   }
 
   //
-  Future<void> analyticsSetUserProperty() async {}
+  Future<void> analyticsSetUserProperty({
+    required String eventName,
+    required String value,
+  }) async {
+    try {
+      await _analytics.setUserProperty(
+        name: eventName,
+        value: value,
+      );
+    } on Exception catch (e) {
+      debugPrint("log event error is $e");
+    }
+  }
+
+
+  // more about e-commerce analytics take a look here
+  // https://firebase.google.com/docs/analytics/measure-ecommerce#dart_10
+  Future<void> analyticsAddToCartEvent() async {
+    try {
+      final jeggings = AnalyticsEventItem(
+        itemId: "SKU_123",
+        itemName: "jeggings",
+        itemCategory: "pants",
+        itemVariant: "black",
+        itemBrand: "Google",
+        price: 9.99,
+      );
+
+      await FirebaseAnalytics.instance.logAddToCart(
+        currency: 'USD',
+        value: 19.98,
+        items: [
+          jeggings,
+        ],
+      );
+    } catch (e) {
+      debugPrint("log event error is $e");
+    }
+  }
 }

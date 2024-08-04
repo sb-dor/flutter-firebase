@@ -7,6 +7,7 @@ take a look to youtube video:
 1. https://www.youtube.com/watch?v=hMUO8Vz-z0E&t=279s
 
 about how to turn debug mode in order to see log faster take a look here
+(android is easy but for ios setting take a look a youtube-video above )
 
 1. https://firebase.google.com/docs/analytics/debugview?hl=ru
 
@@ -40,3 +41,11 @@ about all firebase analytics events and params take a look this links:
 
 1. https://firebase.google.com/docs/reference/android/com/google/firebase/analytics/FirebaseAnalytics.Event
 2. https://firebase.google.com/docs/reference/android/com/google/firebase/analytics/FirebaseAnalytics.Param
+
+
+------------------------------------
+
+E-commerce analytics
+
+1. https://firebase.google.com/docs/analytics/measure-ecommerce#dart_10
+2. https://firebase.flutter.dev/docs/analytics/measure-ecommerce

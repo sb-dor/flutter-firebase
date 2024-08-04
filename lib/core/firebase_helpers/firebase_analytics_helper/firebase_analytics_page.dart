@@ -65,6 +65,29 @@ class _FirebaseAnalyticsPageState extends State<FirebaseAnalyticsPage> {
                     child: const Text("button_clicking"),
                   ),
                 ),
+                const SliverToBoxAdapter(child: SizedBox(height: 10)),
+                SliverToBoxAdapter(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      // custom event
+                      await _analyticsHelper.analyticsSetUserProperty(
+                        eventName: "user_name",
+                        value: "Ya Takoyta Takyota",
+                      );
+                    },
+                    child: const Text("Set User Property"),
+                  ),
+                ),
+                const SliverToBoxAdapter(child: SizedBox(height: 10)),
+                SliverToBoxAdapter(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      // custom event
+                      await _analyticsHelper.analyticsAddToCartEvent();
+                    },
+                    child: const Text("Add to cart event"),
+                  ),
+                ),
               ],
             ),
           ),
