@@ -25,7 +25,7 @@ class FirebaseCloudStorageHelper {
     required int userId,
   }) async {
     final imageRef = storageRef.child(
-      'images/$userId/${basename(file.path)}${extension(file.path)}',
+      'images/$userId/${basenameWithoutExtension(file.path)}${extension(file.path)}',
     );
     await imageRef.putFile(File(file.path));
   }
