@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_storage/firebase_cloud_storage_helper.dart';
@@ -38,6 +40,8 @@ class _FirebaseCloudStoragePageState extends State<FirebaseCloudStoragePage> {
     setState(() {});
   }
 
+  List<Stream<TaskSnapshot>> subs = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,15 +57,43 @@ class _FirebaseCloudStoragePageState extends State<FirebaseCloudStoragePage> {
               onPressed: () async {
                 final file = await _imagePicker.pickMedia();
                 if (file == null) return;
-                await _firebaseCloudStorageHelper.addImage(
+                Stream<TaskSnapshot> stream = _firebaseCloudStorageHelper.addImage(
                   file: file,
                   userId: 1, // temp id
                 );
-                getFiles();
+                subs.add(stream);
+                setState(() {});
+                //
               },
               child: const Icon(
                 Icons.get_app,
               ),
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: subs.length,
+              itemBuilder: (context, index) {
+                final item = subs[index];
+                return StreamBuilder(
+                  stream: item,
+                  builder: (context, snap) {
+                    switch (snap.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return const Center(child: CircularProgressIndicator());
+                      case ConnectionState.active:
+                      case ConnectionState.done:
+                        final req = snap.requireData;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: req.bytesTransferred / req.totalBytes,
+                          ),
+                        );
+                    }
+                  },
+                );
+              },
             ),
             ListView.separated(
               separatorBuilder: (context, index) => const SizedBox(height: 10),
@@ -70,6 +102,20 @@ class _FirebaseCloudStoragePageState extends State<FirebaseCloudStoragePage> {
               itemCount: listOfFiles.length,
               itemBuilder: (context, index) {
                 final item = listOfFiles[index];
+                // in order to get image there is method called: "getDownloadURL()"
+                // with you can either download or show image.
+                // there are also another methods which call:
+
+                // getData() -> for getting Uint8List
+
+                // and
+
+                // getFullMetadata()
+
+                // File metadata contains common properties such as name, size, and contentType
+                // (often referred to as MIME type) in addition to some less common ones like contentDisposition
+                // and timeCreated. This metadata can be retrieved from a Cloud Storage reference using the
+                // getMetadata() method.
                 return FutureBuilder<String>(
                   future: item.getDownloadURL(),
                   builder: (context, snap) {
@@ -81,12 +127,28 @@ class _FirebaseCloudStoragePageState extends State<FirebaseCloudStoragePage> {
                       if (snap.requireData.contains(".mp4")) {
                         return _VideoFileWidget(path: snap.requireData);
                       } else {
-                        return SizedBox(
-                          width: 200,
-                          height: 200,
-                          child: Image.network(
-                            snap.requireData,
-                            fit: BoxFit.cover,
+                        return GestureDetector(
+                          onTap: () {
+                            _firebaseCloudStorageHelper.saveFile(item, snap.requireData);
+                          },
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                width: 200,
+                                height: 200,
+                                child: Image.network(
+                                  snap.requireData,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () async {
+                                  await _firebaseCloudStorageHelper.deleteFile(item);
+                                  getFiles();
+                                },
+                                icon: Icon(Icons.delete),
+                              ),
+                            ],
                           ),
                         );
                       }
