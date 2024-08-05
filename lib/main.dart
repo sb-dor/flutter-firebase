@@ -6,6 +6,8 @@ import 'package:flutter_firebase/core/firebase_helpers/firebase_analytics_helper
 import 'package:flutter_firebase/core/firebase_helpers/firebase_appcheck/firebase_app_check_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_firestore/firebase_cloud_firestore_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_firestore/firebase_cloud_firestore_page.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_storage/firebase_cloud_storage_helper.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_storage/firebase_cloud_storage_page.dart';
 import 'package:flutter_firebase/core/getit/getit_init.dart';
 import 'package:flutter_firebase/firebase_options.dart';
 
@@ -23,6 +25,8 @@ void main() async {
     await getit<FirebaseAppCheckHelper>().init();
 
     await getit<FirebaseCloudFireStoreHelper>().initFirestore();
+
+    await getit<FirebaseCloudStorageHelper>().init();
 
     getit<FirebaseAnalyticsHelper>().analytics.setAnalyticsCollectionEnabled(true);
   } catch (e) {
@@ -43,7 +47,7 @@ class _MainApp extends StatelessWidget {
           analytics: getit<FirebaseAnalyticsHelper>().analytics,
         )
       ],
-      home: const FirebaseCloudFirestorePage(),
+      home: const FirebaseCloudStoragePage(),
       debugShowCheckedModeBanner: false,
     );
   }
