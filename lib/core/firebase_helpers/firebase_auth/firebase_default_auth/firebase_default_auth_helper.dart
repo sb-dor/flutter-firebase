@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_firebase/core/getit/getit_init.dart';
+import 'package:flutter_firebase/core/shared_pref/shared_pref.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FirebaseDefaultAuthHelper {
   final FirebaseAuth _firebaseDefaultAuth = FirebaseAuth.instance;
@@ -59,6 +62,20 @@ class FirebaseDefaultAuthHelper {
         email: email,
         password: password,
       );
+
+      if (credential.credential == null) return;
+
+      await getit<SharedPref>().saveString(
+        key: "cred_sign_in_method",
+        value: credential.credential!.signInMethod,
+      );
+
+      await getit<SharedPref>().saveString(
+        key: "cred_provider_id",
+        value: credential.credential!.providerId,
+      );
+
+      //
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         debugPrint('The password provided is too weak.');
@@ -80,6 +97,20 @@ class FirebaseDefaultAuthHelper {
         email: email,
         password: password,
       );
+
+      if (credential.credential == null) return;
+
+      await getit<SharedPref>().saveString(
+        key: "cred_sign_in_method",
+        value: credential.credential!.signInMethod,
+      );
+
+      await getit<SharedPref>().saveString(
+        key: "cred_provider_id",
+        value: credential.credential!.providerId,
+      );
+
+      //
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         debugPrint('No user found for that email.');
@@ -128,6 +159,8 @@ class FirebaseDefaultAuthHelper {
 
   // UPDATING USER's EMAIL
   Future<void> updateUserEmail(String email) async {
+    // before changing user's email this function will send code to a new email of user
+    // you have to verify and login again after verification
     await _firebaseDefaultAuth.currentUser?.verifyBeforeUpdateEmail(email);
   }
 

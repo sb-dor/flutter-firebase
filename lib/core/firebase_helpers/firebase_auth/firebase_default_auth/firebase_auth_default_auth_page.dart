@@ -18,6 +18,8 @@ class _FirebaseAuthDefaultAuthPageState extends State<FirebaseAuthDefaultAuthPag
 
   final TextEditingController _nameController = TextEditingController();
 
+  final TextEditingController _emailControllerForChange = TextEditingController();
+
   // final
 
   @override
@@ -42,33 +44,35 @@ class _FirebaseAuthDefaultAuthPageState extends State<FirebaseAuthDefaultAuthPag
                   if (snap.hasData) {
                     final data = snap.requireData;
                     _nameController.text = data?.displayName ?? '';
+                    _emailControllerForChange.text = data?.email ?? '';
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("email: ${data?.email}"),
                         Text("displayname: ${data?.displayName}"),
                         Text("id: ${data?.uid}"),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                controller: _nameController,
-                                decoration: InputDecoration(hintText: "Name"),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                await _firebaseDefaultAuthHelper
-                                    .updateUserName(_nameController.text.trim());
-                                FocusManager.instance.primaryFocus?.unfocus();
-                              },
-                              child: Text(
-                                "Change Name",
-                              ),
-                            )
-                          ],
+                        _TextFieldWithFirebaseFunc(
+                          controller: _nameController,
+                          onButtonTap: () async {
+                            await _firebaseDefaultAuthHelper
+                                .updateUserName(_nameController.text.trim());
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
+                          hintText: "Name",
+                          buttonText: "Change Name",
                         ),
-                        SizedBox(height: 20),
+                        _TextFieldWithFirebaseFunc(
+                          controller: _emailControllerForChange,
+                          onButtonTap: () async {
+                            await _firebaseDefaultAuthHelper.updateUserEmail(
+                              _emailControllerForChange.text.trim(),
+                            );
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
+                          hintText: "Email",
+                          buttonText: "Change email",
+                        ),
+                        const SizedBox(height: 20),
                       ],
                     );
                   } else {
@@ -117,6 +121,41 @@ class _FirebaseAuthDefaultAuthPageState extends State<FirebaseAuthDefaultAuthPag
           ),
         ],
       ),
+    );
+  }
+}
+
+class _TextFieldWithFirebaseFunc extends StatelessWidget {
+  final TextEditingController controller;
+  final VoidCallback onButtonTap;
+  final String hintText;
+  final String buttonText;
+
+  const _TextFieldWithFirebaseFunc({
+    super.key,
+    required this.controller,
+    required this.onButtonTap,
+    required this.hintText,
+    required this.buttonText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: TextField(
+            controller: controller,
+            decoration: InputDecoration(hintText: hintText),
+          ),
+        ),
+        TextButton(
+          onPressed: onButtonTap,
+          child: Text(
+            buttonText,
+          ),
+        )
+      ],
     );
   }
 }
