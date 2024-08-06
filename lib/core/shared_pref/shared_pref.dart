@@ -8,4 +8,8 @@ class SharedPref {
   Future<void> saveString({required String key, required String value}) async {
     await _sharedPreferences.setString(key, value);
   }
+
+  String? getStringByKey({required String key}) {
+    return _sharedPreferences.getString(key);
+  }
 }

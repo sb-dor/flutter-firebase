@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class FirebaseDefaultAuthHelper {
   final FirebaseAuth _firebaseDefaultAuth = FirebaseAuth.instance;
 
+  final SharedPref _sharedPref = getit<SharedPref>();
+
   // Firebase Auth provides many methods and utilities for enabling you to integrate secure
   // authentication into your new or existing Flutter application. In many cases, you will need
   // to know about the authentication state of your user, such as whether they're logged in or logged out.
@@ -65,12 +67,12 @@ class FirebaseDefaultAuthHelper {
 
       if (credential.credential == null) return;
 
-      await getit<SharedPref>().saveString(
+      await _sharedPref.saveString(
         key: "cred_sign_in_method",
         value: credential.credential!.signInMethod,
       );
 
-      await getit<SharedPref>().saveString(
+      await _sharedPref.saveString(
         key: "cred_provider_id",
         value: credential.credential!.providerId,
       );
@@ -108,6 +110,34 @@ class FirebaseDefaultAuthHelper {
       await getit<SharedPref>().saveString(
         key: "cred_provider_id",
         value: credential.credential!.providerId,
+      );
+
+      //
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        debugPrint('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        debugPrint('Wrong password provided for that user.');
+      }
+    } catch (e) {
+      debugPrint("$e");
+    }
+  }
+
+  // CHECK AUTH WITH LATEST LOCAL SAVED CREDENTIALS DATA IN ORDER TO
+  // BE 100% SURE THAT USER SIGNED UP
+  Future<void> checkAuth() async {
+    try {
+      final signInMethod = _sharedPref.getStringByKey(key: "cred_sign_in_method");
+      final providerId = _sharedPref.getStringByKey(key: "cred_provider_id");
+
+      if (signInMethod == null || providerId == null) return;
+
+      await _firebaseDefaultAuth.signInWithCredential(
+        AuthCredential(
+          providerId: providerId,
+          signInMethod: signInMethod,
+        ),
       );
 
       //

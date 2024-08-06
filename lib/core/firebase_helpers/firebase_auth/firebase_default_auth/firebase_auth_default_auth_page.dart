@@ -23,6 +23,13 @@ class _FirebaseAuthDefaultAuthPageState extends State<FirebaseAuthDefaultAuthPag
   // final
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _firebaseDefaultAuthHelper.checkAuth();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
