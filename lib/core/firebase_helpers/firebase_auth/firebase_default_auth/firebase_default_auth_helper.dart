@@ -100,6 +100,8 @@ class FirebaseDefaultAuthHelper {
         password: password,
       );
 
+      debugPrint("sign in credential : ${credential.credential}");
+
       if (credential.credential == null) return;
 
       await getit<SharedPref>().saveString(
@@ -131,6 +133,8 @@ class FirebaseDefaultAuthHelper {
       final signInMethod = _sharedPref.getStringByKey(key: "cred_sign_in_method");
       final providerId = _sharedPref.getStringByKey(key: "cred_provider_id");
 
+      debugPrint("${signInMethod} | ${providerId}");
+
       if (signInMethod == null || providerId == null) return;
 
       await _firebaseDefaultAuth.signInWithCredential(
@@ -139,6 +143,8 @@ class FirebaseDefaultAuthHelper {
           signInMethod: signInMethod,
         ),
       );
+
+      debugPrint("checking auth");
 
       //
     } on FirebaseAuthException catch (e) {
