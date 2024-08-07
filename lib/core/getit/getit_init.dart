@@ -1,6 +1,7 @@
 import 'package:flutter_firebase/core/firebase_helpers/firebase_analytics_helper/firebase_analytics_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_appcheck/firebase_app_check_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_default_auth/firebase_default_auth_helper.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_google_auth/firebase_google_auth_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_firestore/firebase_cloud_firestore_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_storage/firebase_cloud_storage_helper.dart';
 import 'package:flutter_firebase/core/shared_pref/shared_pref.dart';
@@ -41,5 +42,10 @@ abstract final class GetItInit {
     );
 
     await getit<SharedPref>().initPref();
+
+    //
+    getit.registerLazySingleton<FirebaseGoogleAuthHelper>(
+      () => FirebaseGoogleAuthHelper(),
+    );
   }
 }
