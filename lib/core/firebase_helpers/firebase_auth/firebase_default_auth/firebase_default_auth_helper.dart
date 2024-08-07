@@ -67,14 +67,10 @@ class FirebaseDefaultAuthHelper {
 
       if (credential.credential == null) return;
 
+      // save password in a temp storage in order to get it later for checkAuth
       await _sharedPref.saveString(
-        key: "cred_sign_in_method",
-        value: credential.credential!.signInMethod,
-      );
-
-      await _sharedPref.saveString(
-        key: "cred_provider_id",
-        value: credential.credential!.providerId,
+        key: "password",
+        value: password,
       );
 
       //
@@ -95,23 +91,19 @@ class FirebaseDefaultAuthHelper {
     required String password,
   }) async {
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final credential = await _firebaseDefaultAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      debugPrint("sign in credential : ${credential.credential}");
+      debugPrint("sign in credential : ${credential.user?.refreshToken}");
 
-      if (credential.credential == null) return;
+      if (credential.user?.refreshToken == null) return;
 
+      // save password in a temp storage in order to get it later for checkAuth
       await getit<SharedPref>().saveString(
-        key: "cred_sign_in_method",
-        value: credential.credential!.signInMethod,
-      );
-
-      await getit<SharedPref>().saveString(
-        key: "cred_provider_id",
-        value: credential.credential!.providerId,
+        key: "password",
+        value: password,
       );
 
       //
@@ -126,26 +118,28 @@ class FirebaseDefaultAuthHelper {
     }
   }
 
+  // Re-authenticates a user using a fresh credential.
+  // Use before operations such as User.updatePassword that require tokens from recent sign-in attempts.
+  // (or other methods that require recent sign-in)
+
   // CHECK AUTH WITH LATEST LOCAL SAVED CREDENTIALS DATA IN ORDER TO
   // BE 100% SURE THAT USER SIGNED UP
   Future<void> checkAuth() async {
     try {
-      final signInMethod = _sharedPref.getStringByKey(key: "cred_sign_in_method");
-      final providerId = _sharedPref.getStringByKey(key: "cred_provider_id");
+      final user = _firebaseDefaultAuth.currentUser;
 
-      debugPrint("${signInMethod} | ${providerId}");
+      if (user == null) return;
 
-      if (signInMethod == null || providerId == null) return;
+      final password = _sharedPref.getStringByKey(key: 'password');
 
-      await _firebaseDefaultAuth.signInWithCredential(
-        AuthCredential(
-          providerId: providerId,
-          signInMethod: signInMethod,
-        ),
+      AuthCredential credential = EmailAuthProvider.credential(
+        email: user.email ?? '',
+        password: password ?? '',
       );
 
-      debugPrint("checking auth");
+      await user.reauthenticateWithCredential(credential);
 
+      debugPrint("working login");
       //
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
