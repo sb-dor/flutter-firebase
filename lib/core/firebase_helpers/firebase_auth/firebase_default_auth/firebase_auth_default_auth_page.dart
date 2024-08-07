@@ -20,6 +20,10 @@ class _FirebaseAuthDefaultAuthPageState extends State<FirebaseAuthDefaultAuthPag
 
   final TextEditingController _emailControllerForChange = TextEditingController();
 
+  final TextEditingController _passwordChangeController = TextEditingController();
+
+  final TextEditingController _imageUrlController = TextEditingController();
+
   // final
 
   @override
@@ -55,9 +59,28 @@ class _FirebaseAuthDefaultAuthPageState extends State<FirebaseAuthDefaultAuthPag
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("email: ${data?.email}"),
-                        Text("displayname: ${data?.displayName}"),
-                        Text("id: ${data?.uid}"),
+                        IntrinsicHeight(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("email: ${data?.email}"),
+                                    Text("displayname: ${data?.displayName}"),
+                                    Text("id: ${data?.uid}"),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: Image.network(data?.photoURL ??
+                                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQa5Hfgzc60D5cgiQQX-nj-j7_eFHxqpwQmVw&s'),
+                              )
+                            ],
+                          ),
+                        ),
                         _TextFieldWithFirebaseFunc(
                           controller: _nameController,
                           onButtonTap: () async {
@@ -78,6 +101,31 @@ class _FirebaseAuthDefaultAuthPageState extends State<FirebaseAuthDefaultAuthPag
                           },
                           hintText: "Email",
                           buttonText: "Change email",
+                        ),
+                        _TextFieldWithFirebaseFunc(
+                          controller: _passwordChangeController,
+                          onButtonTap: () async {
+                            if (_passwordChangeController.text.trim().length < 6) return;
+                            // before changing we have to check auth one more time
+                            await _firebaseDefaultAuthHelper.checkAuth();
+                            await _firebaseDefaultAuthHelper
+                                .updateUserPassword(_passwordChangeController.text.trim());
+                            _passwordChangeController.clear();
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
+                          hintText: "Password",
+                          buttonText: "Change password",
+                        ),
+                        _TextFieldWithFirebaseFunc(
+                          controller: _imageUrlController,
+                          onButtonTap: () async {
+                            await _firebaseDefaultAuthHelper
+                                .updateUserPhoto(_imageUrlController.text.trim());
+                            _imageUrlController.clear();
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
+                          hintText: "Image url",
+                          buttonText: "Change image",
                         ),
                         const SizedBox(height: 20),
                       ],

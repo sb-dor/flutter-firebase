@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_firebase/core/getit/getit_init.dart';
 import 'package:flutter_firebase/core/shared_pref/shared_pref.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class FirebaseDefaultAuthHelper {
   final FirebaseAuth _firebaseDefaultAuth = FirebaseAuth.instance;
@@ -159,6 +158,8 @@ class FirebaseDefaultAuthHelper {
   }
 
   // SEND EMAIL VERIFICATION TO USER
+  // it means that user have to register or sign in at first
+  // in order to send email verification
   Future<void> sendEmailVerification() async {
     await _firebaseDefaultAuth.currentUser?.sendEmailVerification();
   }
