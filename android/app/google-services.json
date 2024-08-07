@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "403332127037-dm7llcfdi1cmum2jen92smtta3pg6l37.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bdaynabday.firebaseapp",
+            "certificate_hash": "db82cf2d66f2f5ff368b2e033d1a217e8ec0f31c"
+          }
+        },
+        {
+          "client_id": "403332127037-s0vdl1fttpl6qokd5n6as78avbmsu5s4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bdaynabday.firebaseapp",
+            "certificate_hash": "2ab0c6ffffd9c6471a8421ac5151f9709fe1e82c"
+          }
+        },
+        {
           "client_id": "403332127037-ii6p0igeue09qqol2aiq3lmud4v0k3hl.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -31,14 +47,14 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "403332127037-ii6p0igeue09qqol2aiq3lmud4v0k3hl.apps.googleusercontent.com",
+              "client_id": "403332127037-2i3bku1en7d2qtotsgik3rs3lbld7udj.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "403332127037-7haesdjul2kituta47ek9h76bft1ab5h.apps.googleusercontent.com",
+              "client_id": "403332127037-0ppdtbiseopqftdpkee8fo04sdg7eb0v.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.flutter-animations2"
+                "bundle_id": "com.bdaynabday.firebaseapp"
               }
             }
           ]
@@ -78,14 +94,14 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "403332127037-ii6p0igeue09qqol2aiq3lmud4v0k3hl.apps.googleusercontent.com",
+              "client_id": "403332127037-2i3bku1en7d2qtotsgik3rs3lbld7udj.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "403332127037-7haesdjul2kituta47ek9h76bft1ab5h.apps.googleusercontent.com",
+              "client_id": "403332127037-0ppdtbiseopqftdpkee8fo04sdg7eb0v.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.flutter-animations2"
+                "bundle_id": "com.bdaynabday.firebaseapp"
               }
             }
           ]
