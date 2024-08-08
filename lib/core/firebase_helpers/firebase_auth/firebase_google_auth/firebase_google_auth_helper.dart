@@ -121,4 +121,8 @@ class FirebaseGoogleAuthHelper {
       }
     }
   }
+
+  Future<void> logOut() async {
+    await _googleSignIn.signOut();
+  }
 }
