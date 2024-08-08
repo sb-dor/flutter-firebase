@@ -5,14 +5,7 @@
 
     <key>CFBundleURLTypes</key>
     <array>
-        <dict>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>com.bdaynabday.firebaseapp</string>
-            </array>
-        </dict>
+        <!-- Google Sign-In scheme -->
         <dict>
             <key>CFBundleTypeRole</key>
             <string>Editor</string>
@@ -21,14 +14,31 @@
                 <string>com.googleusercontent.apps.403332127037-0ppdtbiseopqftdpkee8fo04sdg7eb0v</string>
             </array>
         </dict>
+         <!-- Facebook scheme -->
         <dict>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>***Something here***</string>
-            </array>
+              <key>CFBundleTypeRole</key>
+              <string>Editor</string>
+              <key>CFBundleURLSchemes</key>
+              <array>
+                 <!-- The configuration should look like this ->   fbTHE_APP_ID    that is why dont forget to put fb at start -->
+                 <string>fb2233168260355735</string>
+              </array>
         </dict>
+    </array>
+
+    <!-- Facebook configuration -->
+    <key>FacebookAppID</key>
+    <string>2233168260355735</string>
+    <key>FacebookClientToken</key>
+    <string>ce7f69971f50e5eeb148b890aee6038c</string>
+    <key>FacebookDisplayName</key>
+    <string>Yahay</string>
+
+    <!-- To use any of the Facebook dialogs (e.g., Login, Share, App Invites, etc.) that can perform an app switch to Facebook apps, your application's Info.plist also needs to include the following:  -->
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>fbapi</string>
+      <string>fb-messenger-share-api</string>
     </array>
 
     <key>NSPhotoLibraryUsageDescription</key>

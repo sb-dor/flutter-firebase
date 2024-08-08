@@ -1,7 +1,9 @@
 for ios in order to add google sign in add
 go the google website:
 
-https://developers.google.com/identity/sign-in/ios/start-integrating?hl=ru#add_a_url_scheme_for_google_sign-in_to_your_project
+1. FlutterFire website -> https://developers.google.com/identity/sign-in/ios/start-integrating?hl=ru#add_a_url_scheme_for_google_sign-in_to_your_project
+2. Google Sign in With Flutter -> https://youtu.be/ZXg5XjXnTRU
+3. Other urls -> https://youtu.be/1k-gITZA9CI
 
 and create id for your project for IOS
 
