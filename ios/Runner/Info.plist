@@ -21,16 +21,16 @@
               <key>CFBundleURLSchemes</key>
               <array>
                  <!-- The configuration should look like this ->   fbTHE_APP_ID    that is why dont forget to put fb at start -->
-                 <string>fb2233168260355735</string>
+                 <string>fb377195308731616</string>
               </array>
         </dict>
     </array>
 
     <!-- Facebook configuration -->
     <key>FacebookAppID</key>
-    <string>2233168260355735</string>
+    <string>377195308731616</string>
     <key>FacebookClientToken</key>
-    <string>ce7f69971f50e5eeb148b890aee6038c</string>
+    <string>df5a28b9b83d49d41772d3959cafb4d8</string>
     <key>FacebookDisplayName</key>
     <string>Yahay</string>
 
