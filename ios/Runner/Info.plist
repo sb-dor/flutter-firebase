@@ -32,7 +32,7 @@
     <key>FacebookClientToken</key>
     <string>df5a28b9b83d49d41772d3959cafb4d8</string>
     <key>FacebookDisplayName</key>
-    <string>Yahay</string>
+    <string>Test-app-firebase</string>
 
     <!-- To use any of the Facebook dialogs (e.g., Login, Share, App Invites, etc.) that can perform an app switch to Facebook apps, your application's Info.plist also needs to include the following:  -->
     <key>LSApplicationQueriesSchemes</key>
