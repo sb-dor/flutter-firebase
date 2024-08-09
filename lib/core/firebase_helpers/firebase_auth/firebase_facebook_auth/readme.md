@@ -74,3 +74,18 @@ for more info about in windows is here
 
     keytool -exportcert -alias androiddebugkey -keystore "C:\Users\amanullah\.android\debug.keystore"
     | "C:\Users\amanullah\Desktop\openssl-0.9.8k_WIN32\bin\openssl" sha1 -binary | "C:\Users\amanullah\Desktop\openssl-0.9.8k_WIN32\bin\openssl" base64
+
+
+if you will get error on auth check this github solution:
+
+1. https://github.com/firebase/flutterfire/issues/13015
+
+in order to avoid error in andorid try to add this code in the of your android/app/build.gradle file:
+
+
+        dependencies {
+
+        implementation platform('com.google.firebase:firebase-bom:33.0.0')
+        implementation 'com.facebook.android:facebook-login:latest.release'
+    
+        }

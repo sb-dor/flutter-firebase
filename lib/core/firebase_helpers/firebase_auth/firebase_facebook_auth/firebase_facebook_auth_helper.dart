@@ -71,11 +71,6 @@ class FirebaseFacebookAuthHelper {
       value: token.tokenString,
     );
 
-    await _sharedPref.saveString(
-      key: "facebook_raw_nonce",
-      value: rawNonce,
-    );
-
     await _firebaseAuth.signInWithCredential(credential);
   }
 
@@ -86,11 +81,13 @@ class FirebaseFacebookAuthHelper {
   // it will throw an error
   Future<void> checkAuth() async {
     try {
+      if (_firebaseAuth.currentUser != null) return;
+
       final token = _sharedPref.getStringByKey(key: 'facebook_token');
 
-      final rawNonce = _sharedPref.getStringByKey(key: "facebook_raw_nonce");
+      if (token == null) return;
 
-      if (token == null || rawNonce == null) return;
+      final rawNonce = generateNonce();
 
       OAuthCredential credential = OAuthCredential(
         providerId: 'facebook.com',
@@ -98,7 +95,6 @@ class FirebaseFacebookAuthHelper {
         idToken: token,
         rawNonce: rawNonce,
       );
-
 
       await _firebaseAuth.signInWithCredential(credential);
 
