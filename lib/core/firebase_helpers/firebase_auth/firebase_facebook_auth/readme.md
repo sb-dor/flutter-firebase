@@ -1,3 +1,9 @@
+add this packages in your pubspec.yaml file:
+
+    flutter_facebook_auth: ^7.0.1
+    crypto: ^3.0.3
+
+
 for more info take a look this website
 
 1. https://firebase.flutter.dev/docs/auth/social#facebook

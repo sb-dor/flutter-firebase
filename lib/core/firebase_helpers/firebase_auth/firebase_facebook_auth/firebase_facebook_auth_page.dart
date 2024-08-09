@@ -16,6 +16,7 @@ class _FirebaseFacebookAuthPageState extends State<FirebaseFacebookAuthPage> {
   void initState() {
     super.initState();
     _faceBookAuthHelper = getit<FirebaseFacebookAuthHelper>();
+    _faceBookAuthHelper.checkAuth();
   }
 
   @override
