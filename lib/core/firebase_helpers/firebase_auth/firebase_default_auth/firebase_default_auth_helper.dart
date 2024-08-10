@@ -65,7 +65,6 @@ class FirebaseDefaultAuthHelper {
       );
 
       if (credential.credential == null) return;
-
       // save password in a temp storage in order to get it later for checkAuth
       await _sharedPref.saveString(
         key: "password",
