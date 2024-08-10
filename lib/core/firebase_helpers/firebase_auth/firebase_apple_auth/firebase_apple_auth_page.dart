@@ -23,7 +23,7 @@ class _FirebaseAppleAuthPageState extends State<FirebaseAppleAuthPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Face book auth",
+          "Apple auth",
         ),
       ),
       body: ListView(
