@@ -10,6 +10,7 @@ import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_ap
 import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_default_auth/firebase_auth_default_auth_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_facebook_auth/firebase_facebook_auth_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_github_auth/firebase_github_auth_helper.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_github_auth/firebase_github_auth_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_google_auth/firebase_google_auth_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_twitter_auth/firebase_twitter_auth_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_twitter_auth/firebase_twitter_auth_page.dart';
@@ -71,7 +72,7 @@ class _MainApp extends StatelessWidget {
             analytics: getit<FirebaseAnalyticsHelper>().analytics,
           )
       ],
-      home: const FirebaseTwitterAuthPage(),
+      home: const FirebaseGithubAuthPage(),
       debugShowCheckedModeBanner: false,
     );
   }

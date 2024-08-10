@@ -44,12 +44,16 @@ class _GitHubSignInPageState extends State<GitHubSignInPage> {
           onPageStarted: (String url) {},
           onPageFinished: (String url) {
             if (url.contains("error=")) {
-              Navigator.of(context).pop(
-                Exception(Uri.parse(url).queryParameters["error"]),
-              );
+              if (context.mounted) {
+                Navigator.of(context).pop(
+                  Exception(Uri.parse(url).queryParameters["error"]),
+                );
+              }
             } else if (url.startsWith(widget.redirectUrl)) {
-              Navigator.of(context).pop(
-                  url.replaceFirst("${widget.redirectUrl}?code=", "").trim());
+              if (context.mounted) {
+                Navigator.of(context)
+                    .pop(url.replaceFirst("${widget.redirectUrl}?code=", "").trim());
+              }
             }
           },
           onWebResourceError: (WebResourceError error) {},
