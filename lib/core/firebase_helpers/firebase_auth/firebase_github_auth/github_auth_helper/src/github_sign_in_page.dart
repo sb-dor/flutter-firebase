@@ -10,14 +10,13 @@ class GitHubSignInPage extends StatefulWidget {
   final String? userAgent;
 
   const GitHubSignInPage(
-      {Key? key,
+      {super.key,
       required this.url,
       required this.redirectUrl,
       this.userAgent,
       this.clearCache = true,
       this.title = "",
-      this.centerTitle})
-      : super(key: key);
+      this.centerTitle});
 
   @override
   State createState() => _GitHubSignInPageState();

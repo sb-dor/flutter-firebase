@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-
 import 'github_sign_in_page.dart';
 import 'github_sign_in_result.dart';
 
@@ -19,10 +17,8 @@ class GitHubSignIn {
   final bool clearCache;
   final String? userAgent;
 
-  final String _githubAuthorizedUrl =
-      "https://github.com/login/oauth/authorize";
-  final String _githubAccessTokenUrl =
-      "https://github.com/login/oauth/access_token";
+  final String _githubAuthorizedUrl = "https://github.com/login/oauth/authorize";
+  final String _githubAccessTokenUrl = "https://github.com/login/oauth/access_token";
 
   GitHubSignIn({
     required this.clientId,
@@ -38,7 +34,7 @@ class GitHubSignIn {
 
   Future<GitHubSignInResult> signIn(BuildContext context) async {
     // let's authorize
-    var authorizedResult;
+    dynamic authorizedResult;
 
     if (kIsWeb) {
       authorizedResult = await launchUrl(
@@ -46,7 +42,6 @@ class GitHubSignIn {
         webOnlyWindowName: '_self',
       );
       //push data into authorized result somehow
-
     } else {
       authorizedResult = await Navigator.of(context).push(
         MaterialPageRoute(
@@ -62,8 +57,7 @@ class GitHubSignIn {
       );
     }
 
-    if (authorizedResult == null ||
-        authorizedResult.toString().contains('access_denied')) {
+    if (authorizedResult == null || authorizedResult.toString().contains('access_denied')) {
       return GitHubSignInResult(
         GitHubSignInResultStatus.cancelled,
         errorMessage: "Sign In attempt has been cancelled.",
@@ -80,11 +74,7 @@ class GitHubSignIn {
     var response = await http.post(
       Uri.parse(_githubAccessTokenUrl),
       headers: {"Accept": "application/json"},
-      body: {
-        "client_id": clientId,
-        "client_secret": clientSecret,
-        "code": code
-      },
+      body: {"client_id": clientId, "client_secret": clientSecret, "code": code},
     );
     GitHubSignInResult result;
     if (response.statusCode == 200) {
@@ -96,8 +86,7 @@ class GitHubSignIn {
     } else {
       result = GitHubSignInResult(
         GitHubSignInResultStatus.cancelled,
-        errorMessage:
-            "Unable to obtain token. Received: ${response.statusCode}",
+        errorMessage: "Unable to obtain token. Received: ${response.statusCode}",
       );
     }
 
