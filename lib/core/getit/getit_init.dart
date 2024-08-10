@@ -65,5 +65,7 @@ abstract final class GetItInit {
     getit.registerLazySingleton<FirebaseTwitterAuthHelper>(
       () => FirebaseTwitterAuthHelper(),
     );
+
+    await getit<FirebaseTwitterAuthHelper>().initTwitterLogin();
   }
 }
