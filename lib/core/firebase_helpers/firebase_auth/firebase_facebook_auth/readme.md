@@ -13,7 +13,7 @@ do whatever says the docs
 Before getting started setup your
 Facebook Developer App and follow the setup process to enable Facebook Login.
 
-REMEMBER IT IS BETTER TO CREATE NEW FACEBOOK APP IN FACEBOOK DEV CONSOLE
+## REMEMBER IT IS BETTER TO CREATE NEW FACEBOOK APP IN FACEBOOK DEV CONSOLE
 
 Here is a config code for Info.plist file. Google sign in scheme also added
 in order to introduce how it will look like 
@@ -89,3 +89,7 @@ in order to avoid error in andorid try to add this code in the of your android/a
         implementation 'com.facebook.android:facebook-login:latest.release'
     
         }
+
+## IN THE END REMEMBER TO MAKE RIGHT CONFIGURATION OF YOUR AndroidManifest.xml file otherwise it will not work
+### Take a look inside "android/app/src/main/res/values" file and take look "android/app/src/main/AndroidManifest.xml"
+### in order to figure out what's going on

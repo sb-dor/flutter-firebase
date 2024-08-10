@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_firebase/core/getit/getit_init.dart';
 import 'package:flutter_firebase/core/shared_pref/shared_pref.dart';
@@ -34,10 +35,26 @@ class FirebaseFacebookAuthHelper {
 
     // Generate a string of the specified length using random characters from the charset
     return String.fromCharCodes(
-        List.generate(length, (index) => charset.codeUnitAt(random.nextInt(charset.length))));
+      List.generate(
+        length,
+        (index) => charset.codeUnitAt(
+          random.nextInt(charset.length),
+        ),
+      ),
+    );
   }
 
-  Future<void> facebookSignIn() async {
+  Future<void> facebookPlatformSignIn() async {
+    // if (defaultTargetPlatform == TargetPlatform.iOS) {
+    // await _facebookIOSSignIn();
+    // } else {
+    await _facebookSignIn();
+    // }
+  }
+
+  Future<void> facebookPlatformCheckAuth() async {}
+
+  Future<void> _facebookIOSSignIn() async {
     // Trigger the sign-in flow
 
     final rawNonce = generateNonce();
@@ -57,7 +74,9 @@ class FirebaseFacebookAuthHelper {
 
     // Create a credential from the access token
 
-    final token = loginResult.accessToken as LimitedToken;
+    final token = loginResult.accessToken;
+
+    if (token == null) return;
     // Create a credential from the access token
     OAuthCredential credential = OAuthCredential(
       providerId: 'facebook.com',
@@ -74,12 +93,26 @@ class FirebaseFacebookAuthHelper {
     await _firebaseAuth.signInWithCredential(credential);
   }
 
+  Future<void> _facebookSignIn() async {
+    // Trigger the sign-in flow
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+
+    if (loginResult.accessToken == null) return;
+    // Create a credential from the access token
+    final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(
+      loginResult.accessToken!.tokenString,
+    );
+
+    // Once signed in, return the UserCredential
+    await _firebaseAuth.signInWithCredential(facebookAuthCredential);
+  }
+
   // don't check auth like
   // however it's not a good code for checking auth
   // use the code above
   // because if you will sign in with the same credential
   // it will throw an error
-  Future<void> checkAuth() async {
+  Future<void> _iosCheckAuth() async {
     try {
       if (_firebaseAuth.currentUser != null) return;
 
@@ -102,5 +135,10 @@ class FirebaseFacebookAuthHelper {
     } catch (e) {
       debugPrint("error is $e");
     }
+  }
+
+  Future<void> signOut() async {
+    await _firebaseAuth.signOut();
+    await _faceBookAuth.logOut();
   }
 }

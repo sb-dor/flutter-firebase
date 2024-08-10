@@ -1,0 +1,7 @@
+<resources>
+    <!--    app name is facebook created project-->
+    <string name="app_name">Test-app-firebase</string>
+    <string name="facebook_app_id">377195308731616</string>
+    <string name="fb_login_protocol_scheme">fb377195308731616</string>
+    <string name="facebook_client_token">df5a28b9b83d49d41772d3959cafb4d8</string>
+</resources>

@@ -16,7 +16,7 @@ class _FirebaseFacebookAuthPageState extends State<FirebaseFacebookAuthPage> {
   void initState() {
     super.initState();
     _faceBookAuthHelper = getit<FirebaseFacebookAuthHelper>();
-    _faceBookAuthHelper.checkAuth();
+    _faceBookAuthHelper.facebookPlatformCheckAuth();
   }
 
   @override
@@ -77,9 +77,15 @@ class _FirebaseFacebookAuthPageState extends State<FirebaseFacebookAuthPage> {
           ),
           ElevatedButton(
             onPressed: () async {
-              await _faceBookAuthHelper.facebookSignIn();
+              await _faceBookAuthHelper.facebookPlatformSignIn();
             },
             child: Text("Sign in"),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              await _faceBookAuthHelper.signOut();
+            },
+            child: Text("Sign out"),
           ),
         ],
       ),
