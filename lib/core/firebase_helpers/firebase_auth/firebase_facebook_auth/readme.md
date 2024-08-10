@@ -7,6 +7,7 @@ add this packages in your pubspec.yaml file:
 for more info take a look this website
 
 1. https://firebase.flutter.dev/docs/auth/social#facebook
+2. https://facebook.meedu.app/docs/7.x.x/intro
 
 do whatever says the docs
 
@@ -93,3 +94,20 @@ in order to avoid error in andorid try to add this code in the of your android/a
 ## IN THE END REMEMBER TO MAKE RIGHT CONFIGURATION OF YOUR AndroidManifest.xml file otherwise it will not work
 ### Take a look inside "android/app/src/main/res/values" file and take look "android/app/src/main/AndroidManifest.xml"
 ### in order to figure out what's going on
+
+
+WEB configuration :
+
+    Future<void> main() async {
+    // check if is running on Web
+        if (kIsWeb) {
+        // initialize the facebook javascript SDK
+        await FacebookAuth.i.webAndDesktopInitialize(
+            appId: "YOUR_FACEBOOK_APP_ID",
+            cookie: true,
+            xfbml: true,
+            version: "v15.0",
+        );
+        }
+        runApp(MyApp());
+    }

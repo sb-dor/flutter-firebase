@@ -1,6 +1,8 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_analytics_helper/analytics_ecommerce_page/analytics_ecommerce_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_analytics_helper/firebase_analytics_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_appcheck/firebase_app_check_helper.dart';
@@ -25,13 +27,23 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    await getit<FirebaseAppCheckHelper>().init();
+    if (kIsWeb) {
+      // initialize the facebook javascript SDK
+      await FacebookAuth.i.webAndDesktopInitialize(
+        appId: "YOUR_FACEBOOK_APP_ID",
+        cookie: true,
+        xfbml: true,
+        version: "v15.0",
+      );
+    } else {
+      await getit<FirebaseAppCheckHelper>().init();
 
-    await getit<FirebaseCloudFireStoreHelper>().initFirestore();
+      await getit<FirebaseCloudFireStoreHelper>().initFirestore();
 
-    await getit<FirebaseCloudStorageHelper>().init();
+      await getit<FirebaseCloudStorageHelper>().init();
 
-    getit<FirebaseAnalyticsHelper>().analytics.setAnalyticsCollectionEnabled(true);
+      getit<FirebaseAnalyticsHelper>().analytics.setAnalyticsCollectionEnabled(true);
+    }
   } catch (e) {
     debugPrint("Failed to initialize Firebase: $e");
   }
@@ -46,9 +58,10 @@ class _MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorObservers: [
-        FirebaseAnalyticsObserver(
-          analytics: getit<FirebaseAnalyticsHelper>().analytics,
-        )
+        if (!kIsWeb)
+          FirebaseAnalyticsObserver(
+            analytics: getit<FirebaseAnalyticsHelper>().analytics,
+          )
       ],
       home: const FirebaseFacebookAuthPage(),
       debugShowCheckedModeBanner: false,

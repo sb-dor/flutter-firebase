@@ -9,6 +9,10 @@ class SharedPref {
     await _sharedPreferences.setString(key, value);
   }
 
+  Future<void> deleteByKey({required String key}) async {
+    _sharedPreferences.remove(key);
+  }
+
   String? getStringByKey({required String key}) {
     return _sharedPreferences.getString(key);
   }
