@@ -10,6 +10,8 @@ import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_ap
 import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_default_auth/firebase_auth_default_auth_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_facebook_auth/firebase_facebook_auth_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_google_auth/firebase_google_auth_page.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_twitter_auth/firebase_twitter_auth_helper.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_twitter_auth/firebase_twitter_auth_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_firestore/firebase_cloud_firestore_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_firestore/firebase_cloud_firestore_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_storage/firebase_cloud_storage_helper.dart';
@@ -43,6 +45,8 @@ void main() async {
 
       await getit<FirebaseCloudStorageHelper>().init();
 
+      await getit<FirebaseTwitterAuthHelper>().initTwitterLogin();
+
       getit<FirebaseAnalyticsHelper>().analytics.setAnalyticsCollectionEnabled(true);
     }
   } catch (e) {
@@ -64,7 +68,7 @@ class _MainApp extends StatelessWidget {
             analytics: getit<FirebaseAnalyticsHelper>().analytics,
           )
       ],
-      home: const FirebaseAppleAuthPage(),
+      home: const FirebaseTwitterAuthPage(),
       debugShowCheckedModeBanner: false,
     );
   }

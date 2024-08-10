@@ -4,4 +4,9 @@
     <string name="facebook_app_id_example">value</string>
     <string name="fb_login_protocol_scheme_example">value</string>
     <string name="facebook_client_token_example">value</string>
+
+
+    <!--   TWITTER settins -->
+    <!--   DON'T TOUCH "socialauth" it's already configured (configure this in your twitter too) -->
+    <string name="twitter_host_url_example">socialauth</string>
 </resources>

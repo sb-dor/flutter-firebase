@@ -66,6 +66,5 @@ abstract final class GetItInit {
       () => FirebaseTwitterAuthHelper(),
     );
 
-    await getit<FirebaseTwitterAuthHelper>().initTwitterLogin();
   }
 }
