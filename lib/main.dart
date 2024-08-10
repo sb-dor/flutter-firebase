@@ -6,6 +6,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_analytics_helper/analytics_ecommerce_page/analytics_ecommerce_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_analytics_helper/firebase_analytics_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_appcheck/firebase_app_check_helper.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_apple_auth/firebase_apple_auth_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_default_auth/firebase_auth_default_auth_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_facebook_auth/firebase_facebook_auth_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_google_auth/firebase_google_auth_page.dart';
@@ -63,7 +64,7 @@ class _MainApp extends StatelessWidget {
             analytics: getit<FirebaseAnalyticsHelper>().analytics,
           )
       ],
-      home: const FirebaseFacebookAuthPage(),
+      home: const FirebaseAppleAuthPage(),
       debugShowCheckedModeBanner: false,
     );
   }
