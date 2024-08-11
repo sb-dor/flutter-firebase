@@ -62,6 +62,7 @@ dependencies:
   firebase_messaging: ^15.0.4
   awesome_notifications: ^0.9.3+1
   awesome_notifications_core: ^0.9.3
+  firebase_database: ^11.0.4
 
 
 dev_dependencies:
