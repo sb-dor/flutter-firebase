@@ -59,6 +59,7 @@ abstract final class FirebaseMessagingHelper {
   }
 
   static Future<void> _backgroundMessageHandler(RemoteMessage? message) async {
+    debugPrint("message is : $message");
     if (message == null) return;
     debugPrint("Title: ${message.notification?.title}");
     debugPrint("body: ${message.notification?.body}");

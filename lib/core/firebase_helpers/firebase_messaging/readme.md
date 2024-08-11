@@ -17,6 +17,7 @@ add this packages in you pubspec.yaml
 do android and ios config:
 
 1. https://pub.dev/packages/awesome_notifications
+2. https://firebase.google.com/docs/cloud-messaging/flutter/client
 
 add this implementation in android\app\build.gradle:
 
