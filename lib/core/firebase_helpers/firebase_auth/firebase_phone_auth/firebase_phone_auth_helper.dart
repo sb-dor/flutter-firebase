@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class FirebasePhoneAuthHelper {
   //
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  Future<void> verifyPhoneNumber(String phoneNumber, {String? code}) async {
-    _firebaseAuth.verifyPhoneNumber(
+  Future<void> verifyPhoneNumber(
+    String phoneNumber,
+    BuildContext context,
+  ) async {
+    await _firebaseAuth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
         debugPrint("credential smsCode: ${credential.smsCode}");
@@ -14,19 +17,35 @@ class FirebasePhoneAuthHelper {
       },
       verificationFailed: (FirebaseAuthException exception) {},
       codeSent: (String verificationId, int? resendToken) async {
-        if (code == null) return;
-        // Update the UI - wait for the user to enter the SMS code
-
-        // Create a PhoneAuthCredential with the code
-        PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: verificationId,
-          smsCode: code,
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Verify code"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    decoration: const InputDecoration(hintText: "Code here"),
+                    onSubmitted: (v) {
+                      if (v.trim().isEmpty) return;
+                      Navigator.pop(context);
+                      final phoneCred = PhoneAuthProvider.credential(
+                        verificationId: verificationId,
+                        smsCode: v.trim(),
+                      );
+                      _firebaseAuth.signInWithCredential(phoneCred);
+                    },
+                  )
+                ],
+              ),
+            );
+          },
         );
-
-        // Sign the user in (or link) with the credential
-        await _firebaseAuth.signInWithCredential(credential);
       },
-      codeAutoRetrievalTimeout: (String verificationId) {},
+      codeAutoRetrievalTimeout: (String verificationId) {
+        debugPrint('codeAutoRetrievalTimeout: $verificationId');
+      },
     );
   }
 //

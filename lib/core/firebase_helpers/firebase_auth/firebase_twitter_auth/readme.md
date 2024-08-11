@@ -6,7 +6,7 @@ for more info take a look this links:
 
 1. https://firebase.flutter.dev/docs/auth/social#twitter
 2. https://pub.dev/packages/twitter_login
-3. https://www.youtube.com/watch?v=Jp9g-b1PPS0
+3. https://youtu.be/Jp9g-b1PPS0?t=374&si=88NnpRongVMFem3r
 
 
 add this code in your AndroidManifest.xml file

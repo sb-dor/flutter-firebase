@@ -36,13 +36,16 @@ class _FirebasePhoneAuthPageState extends State<FirebasePhoneAuthPage> {
         children: [
           TextField(
             controller: _phoneNumberController,
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.phone,
             decoration: const InputDecoration(hintText: "Phone number"),
           ),
           SizedBox(height: 10),
           TextButton(
             onPressed: () async {
-              _firebasePhoneAuthHelper.verifyPhoneNumber(_phoneNumberController.text.trim());
+              await _firebasePhoneAuthHelper.verifyPhoneNumber(
+                _phoneNumberController.text.trim(),
+                context,
+              );
             },
             child: Text("Verify"),
           ),
