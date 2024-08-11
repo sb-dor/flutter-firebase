@@ -9,6 +9,8 @@ import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_ph
 import 'package:flutter_firebase/core/firebase_helpers/firebase_auth/firebase_twitter_auth/firebase_twitter_auth_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_firestore/firebase_cloud_firestore_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_storage/firebase_cloud_storage_helper.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_messaging/awesome_notification_helper.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_messaging/firebase_messaging_helper.dart';
 import 'package:flutter_firebase/core/shared_pref/shared_pref.dart';
 import 'package:get_it/get_it.dart';
 
@@ -76,6 +78,11 @@ abstract final class GetItInit {
     //
     getit.registerLazySingleton<FirebasePhoneAuthHelper>(
       () => FirebasePhoneAuthHelper(),
+    );
+
+    //
+    getit.registerLazySingleton<AwesomeNotificationHelper>(
+      () => AwesomeNotificationHelper(),
     );
   }
 }

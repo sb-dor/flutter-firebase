@@ -19,6 +19,9 @@ import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_firestore/
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_firestore/firebase_cloud_firestore_page.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_storage/firebase_cloud_storage_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_storage/firebase_cloud_storage_page.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_messaging/awesome_notification_helper.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_messaging/firebase_messaging_helper.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_messaging/firebase_messaging_page.dart';
 import 'package:flutter_firebase/core/getit/getit_init.dart';
 import 'package:flutter_firebase/firebase_options.dart';
 
@@ -32,6 +35,8 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+
+    await getit<AwesomeNotificationHelper>().initAwesomeNotifications();
 
     if (kIsWeb) {
       // initialize the facebook javascript SDK
@@ -73,7 +78,7 @@ class _MainApp extends StatelessWidget {
             analytics: getit<FirebaseAnalyticsHelper>().analytics,
           )
       ],
-      home: const FirebasePhoneAuthPage(),
+      home: const FirebaseMessagingPage(),
       debugShowCheckedModeBanner: false,
     );
   }
