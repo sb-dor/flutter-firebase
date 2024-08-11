@@ -11,8 +11,10 @@ import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_firestore/
 import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_storage/firebase_cloud_storage_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_messaging/awesome_notification_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_messaging/firebase_messaging_helper.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_realtime_database/firebase_realtime_database_helper.dart';
 import 'package:flutter_firebase/core/shared_pref/shared_pref.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart';
 
 final getit = GetIt.I;
 
@@ -84,5 +86,9 @@ abstract final class GetItInit {
     getit.registerLazySingleton<AwesomeNotificationHelper>(
       () => AwesomeNotificationHelper(),
     );
+
+    //
+    getit.registerLazySingleton<FirebaseRealtimeDatabaseHelper>(
+        () => FirebaseRealtimeDatabaseHelper());
   }
 }

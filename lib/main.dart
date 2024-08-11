@@ -22,6 +22,7 @@ import 'package:flutter_firebase/core/firebase_helpers/firebase_cloud_storage/fi
 import 'package:flutter_firebase/core/firebase_helpers/firebase_messaging/awesome_notification_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_messaging/firebase_messaging_helper.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_messaging/firebase_messaging_page.dart';
+import 'package:flutter_firebase/core/firebase_helpers/firebase_realtime_database/firebase_realtime_database_page.dart';
 import 'package:flutter_firebase/core/getit/getit_init.dart';
 import 'package:flutter_firebase/firebase_options.dart';
 
@@ -78,7 +79,7 @@ class _MainApp extends StatelessWidget {
             analytics: getit<FirebaseAnalyticsHelper>().analytics,
           )
       ],
-      home: const FirebaseMessagingPage(),
+      home: const FirebaseRealtimeDatabasePage(),
       debugShowCheckedModeBanner: false,
     );
   }
