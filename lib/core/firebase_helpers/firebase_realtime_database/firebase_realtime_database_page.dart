@@ -68,6 +68,7 @@ class _FirebaseRealtimeDatabasePageState extends State<FirebaseRealtimeDatabaseP
             builder: (context, snap) {
               switch (snap.connectionState) {
                 case ConnectionState.none:
+                  return const Text("NONE");
                 case ConnectionState.waiting:
                   return const Center(child: CircularProgressIndicator());
                 case ConnectionState.active:

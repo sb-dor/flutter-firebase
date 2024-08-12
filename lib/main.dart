@@ -25,8 +25,10 @@ import 'package:flutter_firebase/core/firebase_helpers/firebase_messaging/fireba
 import 'package:flutter_firebase/core/firebase_helpers/firebase_realtime_database/firebase_realtime_database_page.dart';
 import 'package:flutter_firebase/core/getit/getit_init.dart';
 import 'package:flutter_firebase/firebase_options.dart';
+import 'package:flutter_firebase/firebase_ui/firebase_ui_page.dart';
 
 import 'core/firebase_helpers/firebase_analytics_helper/firebase_analytics_page.dart';
+import 'firebase_ui/firebase_sign_in_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,7 +81,7 @@ class _MainApp extends StatelessWidget {
             analytics: getit<FirebaseAnalyticsHelper>().analytics,
           )
       ],
-      home: const FirebaseRealtimeDatabasePage(),
+      home: const FirebaseSignInScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
