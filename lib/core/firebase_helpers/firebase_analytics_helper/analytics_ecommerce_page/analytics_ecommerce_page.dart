@@ -127,7 +127,6 @@ class _AnalyticsProductAbout extends StatefulWidget {
   final AnalyticsProduct analyticsProduct;
 
   const _AnalyticsProductAbout({
-    super.key,
     required this.analyticsProduct,
   });
 

@@ -115,7 +115,6 @@ class _UserTextControllerWidget extends StatelessWidget {
   final String refPath;
 
   const _UserTextControllerWidget({
-    super.key,
     required this.firebaseRTDUser,
     required this.controller,
     required this.refPath,

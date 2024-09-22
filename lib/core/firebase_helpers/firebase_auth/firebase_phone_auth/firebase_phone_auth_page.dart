@@ -39,7 +39,7 @@ class _FirebasePhoneAuthPageState extends State<FirebasePhoneAuthPage> {
             keyboardType: TextInputType.phone,
             decoration: const InputDecoration(hintText: "Phone number"),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           TextButton(
             onPressed: () async {
               await _firebasePhoneAuthHelper.verifyPhoneNumber(
@@ -47,7 +47,7 @@ class _FirebasePhoneAuthPageState extends State<FirebasePhoneAuthPage> {
                 context,
               );
             },
-            child: Text("Verify"),
+            child: const Text("Verify"),
           ),
         ],
       ),

@@ -79,13 +79,13 @@ class _FirebaseFacebookAuthPageState extends State<FirebaseFacebookAuthPage> {
             onPressed: () async {
               await _faceBookAuthHelper.facebookPlatformSignIn();
             },
-            child: Text("Sign in"),
+            child: const Text("Sign in"),
           ),
           ElevatedButton(
             onPressed: () async {
               await _faceBookAuthHelper.signOut();
             },
-            child: Text("Sign out"),
+            child: const Text("Sign out"),
           ),
         ],
       ),

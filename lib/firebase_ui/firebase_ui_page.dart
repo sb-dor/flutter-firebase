@@ -16,7 +16,7 @@ class _FirebaseUiPageState extends State<FirebaseUiPage> {
           slivers: [
             PinnedHeaderSliver(
               child: Container(
-                child: Center(
+                child: const Center(
                   child: Text(
                     "Firebase ui page",
                   ),

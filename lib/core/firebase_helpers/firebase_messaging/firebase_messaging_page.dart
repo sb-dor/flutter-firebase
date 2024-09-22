@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/core/firebase_helpers/firebase_messaging/firebase_messaging_helper.dart';
-import 'package:flutter_firebase/core/getit/getit_init.dart';
 
 class FirebaseMessagingPage extends StatefulWidget {
   const FirebaseMessagingPage({super.key});
@@ -21,11 +20,11 @@ class _FirebaseMessagingPageState extends State<FirebaseMessagingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Firebase messaing"),
+        title: const Text("Firebase messaing"),
       ),
       body: ListView(
-        padding: EdgeInsets.all(8),
-        children: [],
+        padding: const EdgeInsets.all(8),
+        children: const [],
       ),
     );
   }

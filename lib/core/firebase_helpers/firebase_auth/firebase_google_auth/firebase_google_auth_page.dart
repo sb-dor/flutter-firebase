@@ -78,7 +78,7 @@ class _FirebaseGoogleAuthPageState extends State<FirebaseGoogleAuthPage> {
             onPressed: () async {
               await _firebaseGoogleAuthHelper.signInWithGoogle();
             },
-            child: Text(
+            child: const Text(
               "Sign in",
             ),
           ),

@@ -187,7 +187,6 @@ class _TextFieldWithFirebaseFunc extends StatelessWidget {
   final String buttonText;
 
   const _TextFieldWithFirebaseFunc({
-    super.key,
     required this.controller,
     required this.onButtonTap,
     required this.hintText,

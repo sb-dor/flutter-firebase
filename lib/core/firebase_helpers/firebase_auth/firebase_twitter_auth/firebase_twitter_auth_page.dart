@@ -79,13 +79,13 @@ class _FirebaseTwitterAuthPageState extends State<FirebaseTwitterAuthPage> {
             onPressed: () async {
               await _firebaseTwitterAuthHelper.signIn();
             },
-            child: Text("Sign in"),
+            child: const Text("Sign in"),
           ),
           ElevatedButton(
             onPressed: () async {
               await _firebaseTwitterAuthHelper.signOut();
             },
-            child: Text("Sign out"),
+            child: const Text("Sign out"),
           ),
         ],
       ),

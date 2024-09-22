@@ -79,13 +79,13 @@ class _FirebaseGithubAuthPageState extends State<FirebaseGithubAuthPage> {
             onPressed: () async {
               await _firebaseGithubAuthHelper.signIn(context);
             },
-            child: Text("Sign in"),
+            child: const Text("Sign in"),
           ),
           ElevatedButton(
             onPressed: () async {
               await _firebaseGithubAuthHelper.signOut();
             },
-            child: Text("Sign out"),
+            child: const Text("Sign out"),
           ),
         ],
       ),

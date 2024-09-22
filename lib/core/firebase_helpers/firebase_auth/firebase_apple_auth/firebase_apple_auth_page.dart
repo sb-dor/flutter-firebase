@@ -78,13 +78,13 @@ class _FirebaseAppleAuthPageState extends State<FirebaseAppleAuthPage> {
             onPressed: () async {
               await _firebaseAppleAuthHelper.signInWithApple();
             },
-            child: Text("Sign in"),
+            child: const Text("Sign in"),
           ),
           ElevatedButton(
             onPressed: () async {
               await _firebaseAppleAuthHelper.signOut();
             },
-            child: Text("Sign out"),
+            child: const Text("Sign out"),
           ),
         ],
       ),

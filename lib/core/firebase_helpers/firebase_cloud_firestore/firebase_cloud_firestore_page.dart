@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
@@ -130,7 +129,7 @@ class _FirebaseCloudFirestorePageState extends State<FirebaseCloudFirestorePage>
 }
 
 class _AddUserPage extends StatefulWidget {
-  const _AddUserPage({super.key});
+  const _AddUserPage();
 
   @override
   State<_AddUserPage> createState() => _AddUserPageState();
@@ -193,7 +192,6 @@ class _UsersTodo extends StatefulWidget {
   final UserModel userModel;
 
   const _UsersTodo({
-    super.key,
     required this.userModel,
   });
 

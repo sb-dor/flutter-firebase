@@ -146,7 +146,7 @@ class _FirebaseCloudStoragePageState extends State<FirebaseCloudStoragePage> {
                                   await _firebaseCloudStorageHelper.deleteFile(item);
                                   getFiles();
                                 },
-                                icon: Icon(Icons.delete),
+                                icon: const Icon(Icons.delete),
                               ),
                             ],
                           ),
@@ -170,7 +170,6 @@ class _VideoFileWidget extends StatefulWidget {
   final String path;
 
   const _VideoFileWidget({
-    super.key,
     required this.path,
   });
 
