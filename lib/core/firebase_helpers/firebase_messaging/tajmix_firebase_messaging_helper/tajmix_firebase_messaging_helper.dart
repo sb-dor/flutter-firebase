@@ -2,8 +2,6 @@
 // firebase_messaging: ^16.0.2
 // flutter_local_notifications: ^19.4.2
 
-
-//
 // import 'dart:async';
 // import 'dart:convert';
 // import 'dart:io';
@@ -14,7 +12,9 @@
 // import 'package:logger/logger.dart';
 // import 'package:moshin24/src/core/utils/constants.dart';
 // import 'package:moshin24/src/core/utils/device_info/device_info_helper.dart';
+// import 'package:moshin24/src/core/utils/reusable_global_functions.dart';
 // import 'package:moshin24/src/core/utils/shared_prefer_helper.dart';
+// import 'package:path_provider/path_provider.dart';
 //
 // // Builds an FCM message with only the data payload.
 // // Unlike notification pushes, this type of message will not be
@@ -41,17 +41,20 @@
 //     required final SharedPreferHelper sharedPreferHelper,
 //     required final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
 //     required final Logger logger,
+//     required final ReusableGlobalFunctions reusableGlobalFunctions,
 //     required final DeviceInfoHelper deviceInfoHelper,
 //   }) : _firebaseMessaging = firebaseMessaging,
 //         _sharedPreferHelper = sharedPreferHelper,
 //         _flutterLocalNotificationsPlugin = flutterLocalNotificationsPlugin,
 //         _logger = logger,
+//         _reusableGlobalFunctions = reusableGlobalFunctions,
 //         _deviceInfoHelper = deviceInfoHelper;
 //
 //   final FirebaseMessaging _firebaseMessaging;
 //   final SharedPreferHelper _sharedPreferHelper;
 //   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
 //   final Logger _logger;
+//   final ReusableGlobalFunctions _reusableGlobalFunctions;
 //   final DeviceInfoHelper _deviceInfoHelper;
 //
 //   // Token will be generated on app entrance
@@ -314,6 +317,7 @@
 //     );
 //     await _showNotification(
 //       _flutterLocalNotificationsPlugin,
+//       _reusableGlobalFunctions,
 //       message.data,
 //       onForegroundNotification: onForegroundNotification,
 //     );
@@ -330,37 +334,58 @@
 //     }
 //     final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 //
+//     final reusableGlobalFunctions = ReusableGlobalFunctions.instance;
+//
 //     // other default settings both for android and ios
 //     await _initSettings(flutterLocalNotificationsPlugin);
 //
-//     await _showNotification(flutterLocalNotificationsPlugin, message.data);
+//     await _showNotification(flutterLocalNotificationsPlugin, reusableGlobalFunctions, message.data);
 //   }
 //
 //   static Future<void> _showNotification(
-//       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
-//       Map<String, dynamic> notificationData, {
-//         void Function(String type, Map<String, dynamic>? data)? onForegroundNotification,
+//       final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
+//       final ReusableGlobalFunctions reusableGlobalFunctions,
+//       final Map<String, dynamic> notificationData, {
+//         final void Function(String type, Map<String, dynamic>? data)? onForegroundNotification,
 //       }) async {
 //     if (notificationData.isNotEmpty &&
 //         (notificationData.containsKey('title') || notificationData.containsKey('body'))) {
 //       //
 //       StyleInformation? styleInformation;
 //       ByteArrayAndroidBitmap? byteArrayAndroidBitmap;
+//       DarwinNotificationAttachment? iosNotificationAttachment;
 //
 //       if (notificationData.containsKey('image') &&
 //           notificationData['image'] != null &&
 //           notificationData['image'] is String &&
 //           (notificationData['image'] as String).contains('http')) {
+//         // LOGIC FOR SHOWING IMAGE
 //         final request = await HttpClient().getUrl(Uri.parse("${notificationData['image']}"));
 //         final response = await request.close();
 //         final bytes = await consolidateHttpClientResponseBytes(response);
-//         final base64Str = base64Encode(bytes);
-//         byteArrayAndroidBitmap = ByteArrayAndroidBitmap.fromBase64String(base64Str);
-//         styleInformation = BigPictureStyleInformation(
-//           byteArrayAndroidBitmap,
-//           largeIcon: byteArrayAndroidBitmap,
-//           hideExpandedLargeIcon: true,
-//         );
+//
+//         // ---- ANDROID ----
+//         if (defaultTargetPlatform == TargetPlatform.android) {
+//           final base64Str = base64Encode(bytes);
+//           byteArrayAndroidBitmap = ByteArrayAndroidBitmap.fromBase64String(base64Str);
+//           styleInformation = BigPictureStyleInformation(
+//             byteArrayAndroidBitmap,
+//             largeIcon: byteArrayAndroidBitmap,
+//             hideExpandedLargeIcon: true,
+//           );
+//         }
+//
+//         // ---- iOS ----
+//         // Notification image for ios is showing only on foreground
+//         // could not write logic for handling image on background
+//         if (defaultTargetPlatform == TargetPlatform.iOS) {
+//           final directory = await getTemporaryDirectory();
+//           final filePath =
+//               '${directory.path}/notification_image_${reusableGlobalFunctions.randomId()}.jpg';
+//           final file = File(filePath);
+//           await file.writeAsBytes(bytes);
+//           iosNotificationAttachment = DarwinNotificationAttachment(filePath, hideThumbnail: false);
+//         }
 //       }
 //
 //       if (notificationData.containsKey('search_id')) {
@@ -386,6 +411,9 @@
 //             // The "ticker" text is passed here is optional and specific to Android. This allows for
 //             // text to be shown in the status bar on older versions of Android when the notification is shown.
 //             ticker: 'ticker',
+//           ),
+//           iOS: DarwinNotificationDetails(
+//             attachments: iosNotificationAttachment == null ? null : [iosNotificationAttachment],
 //           ),
 //         ),
 //         payload: jsonEncode(notificationData),
