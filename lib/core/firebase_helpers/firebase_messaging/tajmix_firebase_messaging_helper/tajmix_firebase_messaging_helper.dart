@@ -1,7 +1,3 @@
-// packages that were used:
-// firebase_messaging: ^16.0.2
-// flutter_local_notifications: ^19.4.2
-
 // import 'dart:async';
 // import 'dart:convert';
 // import 'dart:io';
@@ -9,11 +5,11 @@
 // import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:flutter/foundation.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:komnata_tj/src/common/utils/constants.dart';
+// import 'package:komnata_tj/src/common/utils/device_info_helper.dart';
+// import 'package:komnata_tj/src/common/utils/reusable_global_functions.dart';
+// import 'package:komnata_tj/src/common/utils/shared_prefer_helper.dart';
 // import 'package:logger/logger.dart';
-// import 'package:moshin24/src/core/utils/constants.dart';
-// import 'package:moshin24/src/core/utils/device_info/device_info_helper.dart';
-// import 'package:moshin24/src/core/utils/reusable_global_functions.dart';
-// import 'package:moshin24/src/core/utils/shared_prefer_helper.dart';
 // import 'package:path_provider/path_provider.dart';
 //
 // // Builds an FCM message with only the data payload.
@@ -64,11 +60,13 @@
 //     if (defaultTargetPlatform == TargetPlatform.iOS) {
 //       final apnToken = await _firebaseMessaging.getAPNSToken();
 //       if (apnToken == null) {
-//         FirebaseCrashlytics.instance.recordError(
-//           Exception("APNs was not generated for iOS"),
-//           StackTrace.current,
-//           reason: await _deviceInfoHelper.getDeviceInfo(),
-//         );
+//         if (kReleaseMode) {
+//           FirebaseCrashlytics.instance.recordError(
+//             Exception("APNs was not generated for iOS"),
+//             StackTrace.current,
+//             reason: await _deviceInfoHelper.getDeviceInfo(),
+//           );
+//         }
 //         return null;
 //       }
 //     }
@@ -263,8 +261,8 @@
 //     void Function(String screen, Map<String, dynamic>? data)? onRedirect,
 //   }) async {
 //     if (defaultTargetPlatform == TargetPlatform.android) {
-//       final notificationOnLaunch =
-//       await _flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+//       final notificationOnLaunch = await _flutterLocalNotificationsPlugin
+//           .getNotificationAppLaunchDetails();
 //       if (notificationOnLaunch != null && notificationOnLaunch.didNotificationLaunchApp) {
 //         final notificationResponse = notificationOnLaunch.notificationResponse;
 //         if (notificationResponse != null) {
